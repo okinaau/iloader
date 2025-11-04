@@ -67,7 +67,7 @@ export const Device = ({
     <>
       <h2>iDevice</h2>
       <div className="credentials-container">
-        {devices.length === 0 && <p>No devices found.</p>}
+        {devices.length === 0 && <div>No devices found.</div>}
         {devices.map((device) => (
           <div
             key={device.id}
