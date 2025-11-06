@@ -4,14 +4,17 @@ mod account;
 mod device;
 #[macro_use]
 mod sideload;
+#[macro_use]
+mod pairing;
 mod operation;
 
 use crate::{
     account::{
-        delete_account, get_certificates, invalidate_account, list_app_ids, logged_in_as,
-        login_email_pass, login_stored_pass, revoke_certificate, delete_app_id,
+        delete_account, delete_app_id, get_certificates, invalidate_account, list_app_ids,
+        logged_in_as, login_email_pass, login_stored_pass, revoke_certificate,
     },
     device::{list_devices, set_selected_device, DeviceInfoMutex},
+    pairing::{installed_pairing_apps, place_pairing_cmd},
     sideload::{install_sidestore_operation, sideload_operation},
 };
 use tauri::Manager;
@@ -40,6 +43,8 @@ pub fn run() {
             revoke_certificate,
             list_app_ids,
             delete_app_id,
+            installed_pairing_apps,
+            place_pairing_cmd,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

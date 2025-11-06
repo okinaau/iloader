@@ -4,6 +4,7 @@ use crate::{
     account::get_developer_session,
     device::{get_provider, DeviceInfoMutex},
     operation::Operation,
+    pairing::{get_sidestore_info, place_pairing},
 };
 use isideload::{sideload::sideload_app, SideloadConfiguration};
 use tauri::{AppHandle, Manager, State, Window};
@@ -34,8 +35,6 @@ pub async fn sideload(
 
     let dev_session = get_developer_session().await.map_err(|e| e.to_string())?;
 
-    println!("Sideloading app at path: {}", app_path);
-
     sideload_app(&provider, &dev_session, app_path.into(), config)
         .await
         .map_err(|e| format!("Failed to sideload app: {:?}", e))
@@ -63,6 +62,13 @@ pub async fn install_sidestore_operation(
     nightly: bool,
 ) -> Result<(), String> {
     let op = Operation::new("install_sidestore".to_string(), &window);
+    let device = {
+        let device_guard = device_state.lock().unwrap();
+        match &*device_guard {
+            Some(d) => d.clone(),
+            None => return Err("No device selected".to_string()),
+        }
+    };
     op.start("download")?;
     // TODO: Cache & check version to avoid re-downloading
     let url = if nightly {
@@ -74,7 +80,11 @@ pub async fn install_sidestore_operation(
         .path()
         .temp_dir()
         .map_err(|e| format!("Failed to get temp dir: {:?}", e))?
-        .join("SideStore.ipa");
+        .join(if nightly {
+            "SideStore-Nightly.ipa"
+        } else {
+            "SideStore.ipa"
+        });
     op.fail_if_err("download", download(url, &dest).await)?;
     op.move_on("download", "install")?;
     op.fail_if_err(
@@ -82,7 +92,20 @@ pub async fn install_sidestore_operation(
         sideload(handle, device_state, dest.to_string_lossy().to_string()).await,
     )?;
     op.move_on("install", "pairing")?;
-    op.fail("pairing", "I haven't done this yet!".to_string())?;
+    let sidestore_info = op.fail_if_err("pairing", get_sidestore_info(device.clone()).await)?;
+    if let Some(info) = sidestore_info {
+        op.fail_if_err(
+            "pairing",
+            place_pairing(device, info.bundle_id, info.path).await,
+        )?;
+    } else {
+        return op.fail(
+            "pairing",
+            "Could not find SideStore's bundle ID".to_string(),
+        );
+    }
+
+    op.complete("pairing")?;
     Ok(())
 }
 

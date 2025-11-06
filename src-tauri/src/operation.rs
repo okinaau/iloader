@@ -70,19 +70,4 @@ impl<'a> Operation<'a> {
             Err(e) => self.fail::<T>(id, e),
         }
     }
-
-    pub fn fail_if_err_map<T, E, O: FnOnce(E) -> String>(
-        &self,
-        id: &str,
-        res: Result<T, E>,
-        map_err: O,
-    ) -> Result<T, String> {
-        match res {
-            Ok(t) => Ok(t),
-            Err(e) => {
-                let err = map_err(e);
-                self.fail::<T>(id, err.clone())
-            }
-        }
-    }
 }

@@ -18,6 +18,7 @@ import { Modal } from "./components/Modal";
 import { Certificates } from "./pages/Certificates";
 import { AppIds } from "./pages/AppIds";
 import { Settings } from "./pages/Settings";
+import { Pairing } from "./pages/Pairing";
 
 function App() {
   const [operationState, setOperationState] = useState<OperationState | null>(
@@ -26,7 +27,7 @@ function App() {
   const [loggedInAs, setLoggedInAs] = useState<string | null>(null);
   const [selectedDevice, setSelectedDevice] = useState<DeviceInfo | null>(null);
   const [openModal, setOpenModal] = useState<
-    null | "certificates" | "appids" | "settings"
+    null | "certificates" | "appids" | "pairing" | "settings"
   >(null);
 
   const startOperation = useCallback(
@@ -148,7 +149,14 @@ function App() {
             >
               Install Other
             </button>
-            <button>Manage Pairing File</button>
+            <button
+              onClick={() => {
+                if (!ensureSelectedDevice()) return;
+                setOpenModal("pairing");
+              }}
+            >
+              Manage Pairing File
+            </button>
             <button
               onClick={() => {
                 if (!ensuredLoggedIn()) return;
@@ -192,6 +200,9 @@ function App() {
       </Modal>
       <Modal isOpen={openModal === "settings"} close={() => setOpenModal(null)}>
         <Settings />
+      </Modal>
+      <Modal isOpen={openModal === "pairing"} close={() => setOpenModal(null)}>
+        <Pairing />
       </Modal>
     </main>
   );

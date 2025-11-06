@@ -79,15 +79,49 @@ pub async fn set_selected_device(
     Ok(())
 }
 
-pub async fn get_provider(device: &DeviceInfo) -> Result<UsbmuxdProvider, String> {
+pub async fn get_provider(device_info: &DeviceInfo) -> Result<UsbmuxdProvider, String> {
     let mut usbmuxd = UsbmuxdConnection::default()
         .await
         .map_err(|e| format!("Failed to connect to usbmuxd: {}", e))?;
-    let device_info = usbmuxd
-        .get_device(&device.uuid)
+
+    get_provider_from_connection(device_info, &mut usbmuxd).await
+}
+
+pub async fn get_provider_from_connection(
+    device_info: &DeviceInfo,
+    connection: &mut UsbmuxdConnection,
+) -> Result<UsbmuxdProvider, String> {
+    let device = connection
+        .get_device(&device_info.uuid)
         .await
         .map_err(|e| format!("Failed to get device: {}", e))?;
 
-    let provider = device_info.to_provider(UsbmuxdAddr::from_env_var().unwrap(), "iloader");
+    let provider = device.to_provider(UsbmuxdAddr::from_env_var().unwrap(), "iloader");
     Ok(provider)
+}
+
+pub async fn get_udid(
+    device: &DeviceInfo,
+    connection: &mut UsbmuxdConnection,
+) -> Result<String, String> {
+    let provider = get_provider_from_connection(device, connection).await?;
+    let mut lockdown_client = LockdownClient::connect(&provider).await.map_err(|e| {
+        format!(
+            "Unable to connect to lockdown for device {}: {:?}",
+            device.name, e
+        )
+    })?;
+    let udid = lockdown_client
+        .get_value(Some("UniqueDeviceID"), None)
+        .await
+        .map_err(|e| format!("Failed to get UDID for device {}: {:?}", device.name, e))?
+        .as_string()
+        .ok_or_else(|| {
+            format!(
+                "Failed to convert UDID to string for device {}",
+                device.name
+            )
+        })?
+        .to_string();
+    Ok(udid)
 }
