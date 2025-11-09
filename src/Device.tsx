@@ -7,6 +7,7 @@ export type DeviceInfo = {
   name: string;
   id: number;
   uuid: string;
+  connectionType: "USB" | "Network" | "Unknown";
 };
 
 export const Device = ({
@@ -76,7 +77,7 @@ export const Device = ({
               (selectedDevice?.id === device.id ? " green" : "")
             }
           >
-            {device.name}
+            {device.name} ({device.connectionType})
             <div className="select-device" onClick={() => selectDevice(device)}>
               Select
             </div>

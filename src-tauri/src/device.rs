@@ -3,17 +3,19 @@ use std::sync::Mutex;
 use idevice::{
     lockdown::LockdownClient,
     provider::UsbmuxdProvider,
-    usbmuxd::{UsbmuxdAddr, UsbmuxdConnection},
+    usbmuxd::{Connection, UsbmuxdAddr, UsbmuxdConnection},
     IdeviceService,
 };
 use serde::{Deserialize, Serialize};
 use tauri::State;
 
 #[derive(Deserialize, Serialize, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct DeviceInfo {
     pub name: String,
     pub id: u32,
     pub uuid: String,
+    pub connection_type: String,
 }
 
 pub type DeviceInfoMutex = Mutex<Option<DeviceInfo>>;
@@ -37,12 +39,19 @@ pub async fn list_devices() -> Result<Vec<DeviceInfo>, String> {
         .map(|d| async move {
             let provider = d.to_provider(UsbmuxdAddr::from_env_var().unwrap(), "iloader");
             let device_uid = d.device_id;
+            let connection_type = match d.connection_type {
+                Connection::Usb => "USB",
+                Connection::Network(_) => "Network",
+                Connection::Unknown(_) => "Unknown",
+            }
+            .to_string();
 
             let mut lockdown_client = match LockdownClient::connect(&provider).await {
                 Ok(l) => l,
                 Err(e) => {
                     eprintln!("Unable to connect to lockdown: {e:?}");
                     return DeviceInfo {
+                        connection_type,
                         name: String::from("Unknown Device"),
                         id: device_uid,
                         uuid: d.udid.clone(),
@@ -62,6 +71,7 @@ pub async fn list_devices() -> Result<Vec<DeviceInfo>, String> {
                 name: device_name,
                 id: device_uid,
                 uuid: d.udid.clone(),
+                connection_type,
             }
         })
         .collect();
