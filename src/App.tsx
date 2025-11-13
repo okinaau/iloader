@@ -146,7 +146,7 @@ function App() {
                 });
               }}
             >
-              Install SideStore (Stable)
+              Install SideStore
             </button>
             <button
               onClick={() => {
