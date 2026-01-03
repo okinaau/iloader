@@ -2279,9 +2279,9 @@ dependencies = [
 
 [[package]]
 name = "isideload"
-version = "0.1.23"
+version = "0.1.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "645c12ba79f3a7cb55a3ee9f46563554585f45a885993d6ac024c857a4cadf0a"
+checksum = "980c1039935563dc7c98445091acf85140200d505814a93e6fc8368a4147562e"
 dependencies = [
  "hex",
  "idevice",
