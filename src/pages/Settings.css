@@ -52,22 +52,22 @@
 
 .log-inner {
   background-color: rgba(0, 0, 0, 0.4);
-  overflow-x: auto;
+  overflow: auto;
   padding: 0.65em;
   border-radius: 12px;
   font-family: "SF Mono", "Menlo", monospace;
   font-size: 0.85rem;
   user-select: text;
-  flex: 1;
+  flex: 1 1 6rem;
 }
 
 .log-outer {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  overflow: auto;
   min-width: 50vw;
-  min-height: 50vh;
+  min-height: calc(85vh - 6rem);
+  flex: 1;
 }
 
 .log-outer h2 {
