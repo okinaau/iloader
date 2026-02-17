@@ -2902,9 +2902,9 @@ checksum = "a6cb138bb79a146c1bd460005623e142ef0181e3d0219cb493e02f7d08a35695"
 
 [[package]]
 name = "isideload"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a94c60292465d36ecfd2a02ed3782ce0ba6cad51d5794c8f8a2967bd91c47035"
+checksum = "0d995f4bfdaaff20a77acafacb05514681e0a26fff8ffe92fe7a652fbb3a3d56"
 dependencies = [
  "aes 0.9.0-rc.4",
  "aes-gcm",
