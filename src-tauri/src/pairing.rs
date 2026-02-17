@@ -216,9 +216,7 @@ pub async fn installed_pairing_apps(
             .ok_or("Failed to parse installed apps".to_string())?;
 
         if PAIRING_APPS.iter().any(|(name, _)| name == &n) {
-            println!("Found pairing app: {} with bundle id {}", n, bundle_id);
             if bundle_id.contains("com.stik.stikdebug") {
-                println!("This is the sideloaded version of stikdebug, marking as such");
                 installed.insert(format!("{} (Sideloaded)", n), bundle_id);
             } else {
                 installed.insert(n.to_string(), bundle_id);
