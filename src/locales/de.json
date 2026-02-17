@@ -185,7 +185,8 @@
     "debug": "Debug",
     "info": "Info",
     "warn": "Warnung",
-    "error": "Fehler"
+    "error": "Fehler",
+    "language_hint": "Du kannst bei der Aktualisierung oder Hinzufügung von Übersetzungen <translation>hier</translation> helfen."
   },
   "dialog": {
     "confirm": "Bestätigen",
