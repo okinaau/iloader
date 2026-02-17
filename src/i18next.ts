@@ -9,6 +9,7 @@ export const languages = [
   ["it", "Italiano"],
   ["de", "Deutsch"],
   ["fr", "Français"],
+  ["vi", "Tiếng Việt"]
 ] as const;
 
 type TranslationResource = Record<string, unknown>;
