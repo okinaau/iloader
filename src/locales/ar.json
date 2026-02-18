@@ -106,7 +106,7 @@
     "install_sidestore_step_pairing": "قم بوضع ملف الإقتران",
     "install_livecontainer_title": "يتم تثبيت LiveContainer+SideStore",
     "install_livecontainer_success_title": "تم تثبيت LiveContainer+SideStore!",
-    "install_livecontainer_success_message": "لاستكمال العملية عليك فتح LiveContainer والذهاب الى الاعدادات والضغط على \"استيراد الشهادة من SideStore\" ثم من قائمة التطبيقات اضغط على أيقونة SideStore وقم يتحديث LiveContainer."",
+    "install_livecontainer_success_message": "لاستكمال العملية عليك فتح LiveContainer والذهاب الى الاعدادات والضغط على \"استيراد الشهادة من SideStore\" ثم من قائمة التطبيقات اضغط على أيقونة SideStore وقم يتحديث LiveContainer.",
     "install_livecontainer_step_download": "تحميل LiveContainer+SideStore",
     "install_livecontainer_step_install": "توقيع وتثبيت LiveContainer+SideStore",
     "install_livecontainer_step_pairing": "قم بوضع ملف الإقتران",
