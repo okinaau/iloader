@@ -121,7 +121,7 @@
     "revoking": "Đang thu hồi chứng chỉ",
     "revoked_success": "Thu hồi chứng chỉ thành công!",
     "failed_revoke": "Thu hồi chứng chỉ thất bại: ",
-    "none_found": "No thấy chứng chỉ nào cả~",
+    "none_found": "Không thấy chứng chỉ nào cả~",
     "name": "Tên",
     "serial_number": "Số sê-ri",
     "machine_name": "Tên máy",
