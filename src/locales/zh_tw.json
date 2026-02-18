@@ -39,7 +39,7 @@
     "settings": "設定",
     "must_be_logged_in": "你必須先登入！",
     "must_select_device": "你必須選擇一個裝置！",
-    "ipa_files": "IPA 檔案",
+    "ipa_files": "IPA 檔案"
   },
   "apple_id": {
     "title": "Apple ID",
