@@ -11,6 +11,7 @@ const languages = [
   ["pl", "Polski"],
   ["vi", "Tiếng Việt"],
   ["ru", "Русский"],
+  ["tr", "Türkçe"],
   ["zh_tw", "Traditional Chinese （繁體中文)"],
   ["zh_cn", "Simpified Chinese （简体中文)"],
 ] as const;
