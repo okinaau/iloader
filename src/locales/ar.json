@@ -162,7 +162,7 @@
     "exporting_pairing_file": "يتم استخراج ملف الإقتران...",
     "pairing_file_exported_success": "تم استخراج ملف الإقتران!",
     "failed_export_pairing_file": "فشل استخراج ملف الإقتران.",
-    "export_not_recommended": "استخراجه (لا ينصح بهذه الطريقة(",
+    "export_not_recommended": "(استخراجه (لا ينصح بهذه الطريقة",
     "refresh_installed_apps": "تحديث التطبيقات المثبتة"
   },
   "settings": {
